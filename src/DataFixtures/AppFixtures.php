@@ -22,8 +22,9 @@ class AppFixtures extends Fixture
     		$user = new User();
     		$password = $this->encoder->encodePassword($user, 'password');
     		$user->setEmail($faker->email)
-    			 ->setPassword($password);
-    	    $manager->persist($user);
+    			 ->setPassword($password)
+                 ->setDateAdd(new \DateTime);
+            $manager->persist($user);
     	}
 		$manager->flush();
     }
