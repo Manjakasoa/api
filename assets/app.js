@@ -9,11 +9,24 @@
 import './styles/app.css';
 import React from 'react';
 import ReactDom from 'react-dom';
+import NavBar from './js/components/NavBar';
+import HomePage from './js/pages/HomePage';
+import {HashRouter,Switch,Route} from 'react-router-dom';
+import MyAccountPage from './js/pages/MyAccountPage';
 // start the Stimulus application
 import './bootstrap';
 
 const App = () => {
-	return <h1>Binevenue React </h1>;
+	return <HashRouter>
+		<NavBar />
+		<main className="container pt-5">
+			<Switch>
+				<Route path="/my-account" component={MyAccountPage}/>
+				<Route path="/" component={HomePage}/>
+			</Switch>
+		</main>
+		</HashRouter>
+	;
 }
 const rootElement = document.querySelector('#app');
 ReactDom.render(<App/>,rootElement);

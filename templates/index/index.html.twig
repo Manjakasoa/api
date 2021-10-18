@@ -1,7 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block title "Mon app react" %}
+
 {% block stylesheets %}
+	<link rel="stylesheet" type="text/css" href="{{asset('css/bootstrap.min.css')}}">
 	{{ encore_entry_link_tags('app') }}
 {% endblock %}
 {% block body %}
