@@ -9,6 +9,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 /**
  * @ORM\Entity(repositoryClass=PostRepository::class)
  * @ApiResource()
+ * @ORM\HasLifecycleCallbacks()
  */
 class Post
 {
@@ -39,6 +40,19 @@ class Post
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function addSlug()
+    {
+        $this->slug = strtr(base64_encode(openssl_random_pseudo_bytes(16)), "+/=", "XXX");
+    }
 
    public function getId(): ?int
     {
@@ -89,6 +103,18 @@ class Post
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

@@ -13,6 +13,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ApiResource()
+ * @ORM\HasLifecycleCallbacks()
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -59,11 +60,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $lastName;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
     }
-
+    /**
+     * @ORM\PrePersist
+     */
+    public function addSlug()
+    {
+        $this->slug = strtr(base64_encode(openssl_random_pseudo_bytes(16)), "+/=", "XXX");
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -215,6 +227,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
