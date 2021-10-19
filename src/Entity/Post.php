@@ -53,7 +53,11 @@ class Post
     {
         $this->slug = strtr(base64_encode(openssl_random_pseudo_bytes(16)), "+/=", "XXX");
     }
+   public function getFullNameUser()
+   {
 
+        return $this->getUser()->getLastName().' '.$this->getUser()->getFirstname();
+   }
    public function getId(): ?int
     {
         return $this->id;
