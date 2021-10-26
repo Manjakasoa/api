@@ -6,6 +6,11 @@ const HomePage = (props) => {
 	const [currentPage,setCurrentPage] = useState(1); 
 	const [loanding,setLoanding] = useState(true);
 	useEffect(() => {
+		if(!window.localStorage.getItem('authToken')) {
+			props.history.replace('/login')
+		}else {
+			axios.defaults.headers["Authorization"] = "Bearer "+window.localStorage.getItem('authToken');
+		}
 		axios.get(`http://localhost:8000/api/posts?page=${currentPage}`)
 		 .then(response => response.data['hydra:member'])
 		 .then(data => {

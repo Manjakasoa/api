@@ -18,8 +18,7 @@ const LoginPage = (props) => {
 			.then(response => response.data.token)
 			window.localStorage.setItem('authToken',token);
 			axios.defaults.headers["Authorization"] = "Bearer "+token;
-			axios.get('http://localhost:8000/api/posts')
-				 .then(response => console.log(response));
+			props.history.replace('/');
 		} catch(error) {
 			
 		}
